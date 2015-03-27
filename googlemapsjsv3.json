@@ -1,0 +1,23 @@
+{
+  "!name": "googlemapsjsv3",
+  "!define": {
+    
+  },
+  "google": {
+    "maps": {
+      "version": "string",
+      "Map": {
+        "!type": "fn(mapDiv: Node, opts?: MapOptions)",
+        "!url": "https://developers.google.com/maps/documentation/javascript/reference#Map",
+        "!doc": "Creates a new map inside of the given HTML container, which is typically a DIV element.",
+        "prototype": {
+          "fitBounds": {
+            "!type": "fn(bounds: LatLngBounds)",
+            "!url": "https://developers.google.com/maps/documentation/javascript/reference#Map",
+            "!doc": "Sets the viewport to contain the given bounds."
+          }
+        }
+      }  
+    }
+  }
+}  
