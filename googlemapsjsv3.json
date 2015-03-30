@@ -36,8 +36,42 @@
       "zoomControl": "bool",
       "zoomControlOptions": "ZoomControlOptions"
     },
-    "Events": {
-
+    "bounds_changed": "string",
+    "center_changed": "string",
+    "click": "string",
+    "dblclick": "string",
+    "drag": "string",
+    "dragend": "string",
+    "dragstart": "string",
+    "heading_changed": "string",
+    "idle": "string",
+    "maptypeid_changed": "string",
+    "mousemove": "string",
+    "mouseout": "string",
+    "mouseover": "string",
+    "projection_changed": "string",
+    "resize": "string",
+    "rightclick": "string",
+    "tilesloaded": "string",
+    "tilt_changed": "string",
+    "zoom_changed": "string",
+    "MapTypeControlOptions" : {
+      "mapTypeIds": "[google.maps.MapTypeId]",
+      "mapTypeIds": "[string]",
+      "position": "google.maps.ControlPosition",
+      "style": "google.maps.MapTypeControlStyle"
+    },
+    "OverviewMapControlOptions": {
+      "opened": "bool"
+    },
+    "PanControlOptions": {
+      "position": "google.maps.ControlPosition"
+    },
+    "RotateControlOptions": {
+      "position": "google.maps.ControlPosition"
+    },
+    "ScaleControlOptions": {
+      "style": "google.maps.ScaleControlStyle"
     }
   },
   "google": {
@@ -184,6 +218,17 @@
             "!doc": "Additional map types to overlay."
           }
         }
+      },
+      "MapTypeId": {
+        "HYBRID": "string",
+        "ROADMAP": "string",
+        "SATELLITE": "string",
+        "TERRAIN": "string"
+      },
+      "MapTypeControlStyle": {
+        "DEFAULT": "string",
+        "DROPDOWN_MENU": "string",
+        "HORIZONTAL_BAR": "string"
       }
 
     }
