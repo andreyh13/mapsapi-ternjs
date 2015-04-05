@@ -2,6 +2,7 @@
   "!name": "googlemapsjsv3",
   "!define": {
     "MapOptions": {
+      "!url": "https://developers.google.com/maps/documentation/javascript/reference#MapOptions",
       "backgroundColor": "string",
       "center": "google.maps.LatLng",
       "disableDefaultUI": "bool",
@@ -56,22 +57,47 @@
     "tilt_changed": "string",
     "zoom_changed": "string",
     "MapTypeControlOptions" : {
+      "!url": "https://developers.google.com/maps/documentation/javascript/reference#MapTypeControlOptions",
       "mapTypeIds": "[google.maps.MapTypeId]",
       "mapTypeIds": "[string]",
       "position": "google.maps.ControlPosition",
       "style": "google.maps.MapTypeControlStyle"
     },
     "OverviewMapControlOptions": {
+      "!url": "https://developers.google.com/maps/documentation/javascript/reference#OverviewMapControlOptions",
       "opened": "bool"
     },
     "PanControlOptions": {
+      "!url": "https://developers.google.com/maps/documentation/javascript/reference#PanControlOptions",
       "position": "google.maps.ControlPosition"
     },
     "RotateControlOptions": {
+      "!url": "https://developers.google.com/maps/documentation/javascript/reference#RotateControlOptions",
       "position": "google.maps.ControlPosition"
     },
     "ScaleControlOptions": {
+      "!url": "https://developers.google.com/maps/documentation/javascript/reference#ScaleControlOptions",
       "style": "google.maps.ScaleControlStyle"
+    },
+    "StreetViewControlOptions": {
+      "!url": "https://developers.google.com/maps/documentation/javascript/reference#StreetViewControlOptions",
+      "position": "google.maps.ControlPosition" 
+    },
+    "ZoomControlOptions": {
+      "!url": "https://developers.google.com/maps/documentation/javascript/reference#ZoomControlOptions",
+      "position": "google.maps.ControlPosition",
+      "style": "google.maps.ZoomControlStyle"
+    },
+    "Data": {
+      "DataOptions": {
+
+      },
+      "FeatureOptions": {
+
+      },
+      "GeoJsonOptions": {
+        
+      }
     }
   },
   "google": {
@@ -220,15 +246,64 @@
         }
       },
       "MapTypeId": {
+        "!url": "https://developers.google.com/maps/documentation/javascript/reference#MapTypeId",
         "HYBRID": "string",
         "ROADMAP": "string",
         "SATELLITE": "string",
         "TERRAIN": "string"
       },
       "MapTypeControlStyle": {
+        "!url": "https://developers.google.com/maps/documentation/javascript/reference#MapTypeControlStyle",
         "DEFAULT": "string",
         "DROPDOWN_MENU": "string",
         "HORIZONTAL_BAR": "string"
+      },
+      "ScaleControlStyle": {
+        "!url": "https://developers.google.com/maps/documentation/javascript/reference#ScaleControlStyle",
+        "DEFAULT": "string"  
+      },
+      "ZoomControlStyle": {
+        "!url": "https://developers.google.com/maps/documentation/javascript/reference#ZoomControlStyle",
+        "DEFAULT": "string",
+        "LARGE": "string",
+        "SMALL": "string"
+      },
+      "ControlPosition": {
+        "!url": "https://developers.google.com/maps/documentation/javascript/reference#ControlPosition",
+        "BOTTOM_CENTER": "string",
+        "BOTTOM_LEFT": "string",
+        "BOTTOM_RIGHT": "string",
+        "LEFT_BOTTOM": "string",
+        "LEFT_CENTER": "string",
+        "LEFT_TOP": "string",
+        "RIGHT_BOTTOM": "string",
+        "RIGHT_CENTER": "string",
+        "RIGHT_TOP": "string",
+        "TOP_CENTER": "string",
+        "TOP_LEFT": "string",
+        "TOP_RIGHT": "string"
+      },
+      "Data": {
+        "!type": "fn(options?: Data.DataOptions) -> +google.maps.Data",
+        "!url": "https://developers.google.com/maps/documentation/javascript/reference#Data",
+        "!doc": "Creates an empty collection, with the given DataOptions. Every Map has a Data object by default, so most of the time there is no need to construct one.",
+        "prototype": {
+          "add": {
+            "!type": "fn(feature: google.maps.Data.Feature) -> google.maps.Data.Feature",
+            "!url": "https://developers.google.com/maps/documentation/javascript/reference#Data",
+            "!doc": "Adds a feature to the collection, and returns the added feature. If the feature has an ID, it will replace any existing feature in the collection with the same ID. If no feature is given, a new feature will be created with null geometry and no properties. If FeatureOptions are given, a new feature will be created with the specified properties. Note that the IDs 1234 and '1234' are equivalent. Adding a feature with ID 1234 will replace a feature with ID '1234', and vice versa."
+          },
+          "add": {
+            "!type": "fn(feature: Data.FeatureOptions) -> google.maps.Data.Feature",
+            "!url": "https://developers.google.com/maps/documentation/javascript/reference#Data",
+            "!doc": "Adds a feature to the collection, and returns the added feature. If the feature has an ID, it will replace any existing feature in the collection with the same ID. If no feature is given, a new feature will be created with null geometry and no properties. If FeatureOptions are given, a new feature will be created with the specified properties. Note that the IDs 1234 and '1234' are equivalent. Adding a feature with ID 1234 will replace a feature with ID '1234', and vice versa."
+          },
+          "addGeoJson": {
+            "!type": "fn(geoJson: Object, options?: Data.GeoJsonOptions) -> [google.maps.Data.Feature]",
+            "!url": "https://developers.google.com/maps/documentation/javascript/reference#Data",
+            "!doc": "Adds GeoJSON features to the collection. Give this method a parsed JSON. The imported features are returned. Throws an exception if the GeoJSON could not be imported."
+          }
+        }
       }
 
     }
