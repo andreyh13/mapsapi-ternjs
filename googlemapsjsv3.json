@@ -56,6 +56,13 @@
     "tilesloaded": "string",
     "tilt_changed": "string",
     "zoom_changed": "string",
+    "addfeature": "string",
+    "mousedown": "string",
+    "mouseup": "string",
+    "removefeature": "string",
+    "removeproperty": "string",
+    "setgeometry": "string",
+    "setproperty": "string",
     "MapTypeControlOptions" : {
       "!url": "https://developers.google.com/maps/documentation/javascript/reference#MapTypeControlOptions",
       "mapTypeIds": "[google.maps.MapTypeId]",
@@ -90,13 +97,80 @@
     },
     "Data": {
       "DataOptions": {
-
+        "!url": "https://developers.google.com/maps/documentation/javascript/reference#Data.DataOptions",
+        "map": "google.maps.Map",
+        "style": "Data.StylingFunction",
+        "style": "Data.StyleOptions"
       },
       "FeatureOptions": {
 
       },
       "GeoJsonOptions": {
-        
+        "!url": "https://developers.google.com/maps/documentation/javascript/reference#Data.GeoJsonOptions",
+        "idPropertyName": "string"
+      },
+      "StylingFunction": {
+        "!type": "fn() -> Data.StyleOptions",
+        "!url": "https://developers.google.com/maps/documentation/javascript/reference#Data.StylingFunction"
+      },
+      "StyleOptions": {
+        "!url": "https://developers.google.com/maps/documentation/javascript/reference#Data.StyleOptions",
+        "clickable": {
+          "!type": "bool",
+          "!doc": "If true, the marker receives mouse and touch events. Default value is true."
+        },
+        "cursor": {
+          "!type": "string",
+          "!doc": "Mouse cursor to show on hover. Only applies to point geometries."
+        },
+        "fillColor": {
+          "!type": "string",
+          "!doc": "The fill color. All CSS3 colors are supported except for extended named colors. Only applies to polygon geometries."
+        },
+        "fillOpacity": {
+          "!type": "number",
+          "!doc": "The fill opacity between 0.0 and 1.0. Only applies to polygon geometries."
+        },
+        "icon": {
+          "!type": "string",
+          "!doc": "Icon for the foreground. If a string is provided, it is treated as though it were an Icon with the string as url. Only applies to point geometries."
+        },
+        "icon": {
+          "!type": "Icon",
+          "!doc": "Icon for the foreground. If a string is provided, it is treated as though it were an Icon with the string as url. Only applies to point geometries."
+        },
+        "icon": {
+          "!type": "Symbol",
+          "!doc": "Icon for the foreground. If a string is provided, it is treated as though it were an Icon with the string as url. Only applies to point geometries."
+        },
+        "shape": {
+          "!type": "MarkerShape",
+          "!doc": "Defines the image map used for hit detection. Only applies to point geometries."
+        },
+        "strokeColor": {
+          "!type": "string",
+          "!doc": "The stroke color. All CSS3 colors are supported except for extended named colors. Only applies to line and polygon geometries."
+        },
+        "strokeOpacity": {
+          "!type": "number",
+          "!doc": "The stroke opacity between 0.0 and 1.0. Only applies to line and polygon geometries."
+        },
+        "strokeWeight": {
+          "!type": "number",
+          "!doc": "The stroke width in pixels. Only applies to line and polygon geometries."
+        },
+        "title": {
+          "!type": "string",
+          "!doc": "Rollover text. Only applies to point geometries."
+        },
+        "visible": {
+          "!type": "bool",
+          "!doc": "Whether the feature is visible. Defaults to true."
+        },
+        "zIndex": {
+          "!type": "number",
+          "!doc": "All features are displayed on the map in order of their zIndex, with higher values displaying in front of features with lower values. Markers are always displayed in front of line-strings and polygons."
+        } 
       }
     }
   },
@@ -302,6 +376,81 @@
             "!type": "fn(geoJson: Object, options?: Data.GeoJsonOptions) -> [google.maps.Data.Feature]",
             "!url": "https://developers.google.com/maps/documentation/javascript/reference#Data",
             "!doc": "Adds GeoJSON features to the collection. Give this method a parsed JSON. The imported features are returned. Throws an exception if the GeoJSON could not be imported."
+          },
+          "contains": {
+            "!type": "fn(feature: google.maps.Data.Feature) -> bool",
+            "!url": "https://developers.google.com/maps/documentation/javascript/reference#Data",
+            "!doc": "Checks whether the given feature is in the collection."
+          },
+          "forEach": {
+            "!type": "fn(callback: fn(feature: google.maps.Data.Feature))",
+            "!url": "https://developers.google.com/maps/documentation/javascript/reference#Data",
+            "!doc": "Repeatedly invokes the given function, passing a feature in the collection to the function on each invocation. The order of iteration through the features is undefined."
+          },
+          "getFeatureById": {
+            "!type": "fn(id: number) -> google.maps.Data.Feature",
+            "!url": "https://developers.google.com/maps/documentation/javascript/reference#Data",
+            "!doc": "Returns the feature with the given ID, if it exists in the collection. Otherwise returns undefined. Note that the IDs 1234 and '1234' are equivalent. Either can be used to look up the same feature."
+          },
+          "getFeatureById": {
+            "!type": "fn(id: string) -> google.maps.Data.Feature",
+            "!url": "https://developers.google.com/maps/documentation/javascript/reference#Data",
+            "!doc": "Returns the feature with the given ID, if it exists in the collection. Otherwise returns undefined. Note that the IDs 1234 and '1234' are equivalent. Either can be used to look up the same feature."
+          },
+          "getMap": {
+            "!type": "fn() -> google.maps.Map",
+            "!url": "https://developers.google.com/maps/documentation/javascript/reference#Data",
+            "!doc": "Returns the map on which the features are displayed."
+          },
+          "getStyle": {
+            "!type": "fn() -> Data.StylingFunction",
+            "!url": "https://developers.google.com/maps/documentation/javascript/reference#Data",
+            "!doc": "Gets the style for all features in the collection."
+          },
+          "getStyle": {
+            "!type": "fn() -> Data.StyleOptions",
+            "!url": "https://developers.google.com/maps/documentation/javascript/reference#Data",
+            "!doc": "Gets the style for all features in the collection."
+          },
+          "loadGeoJson": {
+            "!type": "fn(url: string, options?: Data.GeoJsonOptions, callback?: fn(features: [google.maps.Data.Feature]))",
+            "!url": "https://developers.google.com/maps/documentation/javascript/reference#Data",
+            "!doc": "Loads GeoJSON from a URL, and adds the features to the collection."
+          },
+          "overrideStyle": {
+            "!type": "fn(feature: google.maps.Data.Feature, style: Data.StyleOptions)",
+            "!url": "https://developers.google.com/maps/documentation/javascript/reference#Data",
+            "!doc": "Changes the style of a feature. These changes are applied on top of the style specified by setStyle(). Style properties set to null revert to the value specified via setStyle()."
+          },
+          "remove": {
+            "!type": "fn(feature: google.maps.Data.Feature)",
+            "!url": "https://developers.google.com/maps/documentation/javascript/reference#Data",
+            "!doc": "Removes a feature from the collection."
+          },
+          "revertStyle": {
+            "!type": "fn(feature?: google.maps.Data.Feature)",
+            "!url": "https://developers.google.com/maps/documentation/javascript/reference#Data",
+            "!doc": "Removes the effect of previous overrideStyle() calls. The style of the given feature reverts to the style specified by setStyle(). If no feature is given, all features have their style reverted."
+          },
+          "setMap": {
+            "!type": "fn(map: google.maps.Map)",
+            "!url": "https://developers.google.com/maps/documentation/javascript/reference#Data",
+            "!doc": "Renders the features on the specified map. If map is set to null, the features will be removed from the map."
+          },
+          "setStyle": {
+            "!type": "fn(style: Data.StylingFunction)",
+            "!url": "https://developers.google.com/maps/documentation/javascript/reference#Data",
+            "!doc": "Sets the style for all features in the collection. Styles specified on a per-feature basis via overrideStyle() continue to apply. Pass either an object with the desired style options, or a function that computes the style for each feature. The function will be called every time a feature's properties are updated."
+          },
+          "setStyle": {
+            "!type": "fn(style: Data.StyleOptions)",
+            "!url": "https://developers.google.com/maps/documentation/javascript/reference#Data",
+            "!doc": "Sets the style for all features in the collection. Styles specified on a per-feature basis via overrideStyle() continue to apply. Pass either an object with the desired style options, or a function that computes the style for each feature. The function will be called every time a feature's properties are updated."
+          },
+          "toGeoJson": {
+            "!type": "fn(callback: fn(json: Object))",
+            "!url": "https://developers.google.com/maps/documentation/javascript/reference#Data",
+            "!doc": "Exports the features in the collection to a GeoJSON object."
           }
         }
       }
