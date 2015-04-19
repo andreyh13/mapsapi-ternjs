@@ -95,6 +95,11 @@
       "position": "google.maps.ControlPosition",
       "style": "google.maps.ZoomControlStyle"
     },
+    "LatLngLiteral": {
+      "!url": "https://developers.google.com/maps/documentation/javascript/reference#LatLngLiteral",
+      "lat": "number",
+      "lng": "number"
+    }, 
     "Data": {
       "DataOptions": {
         "!url": "https://developers.google.com/maps/documentation/javascript/reference#Data.DataOptions",
@@ -451,6 +456,63 @@
             "!type": "fn(callback: fn(json: Object))",
             "!url": "https://developers.google.com/maps/documentation/javascript/reference#Data",
             "!doc": "Exports the features in the collection to a GeoJSON object."
+          }
+        },
+        "Feature": {
+          "!type": "fn(options?:Data.FeatureOptions) -> +google.maps.Data.Feature",
+          "!url": "https://developers.google.com/maps/documentation/javascript/reference#Data.Feature",
+          "!doc": "Constructs a Feature with the given options.",
+          "prototype": {
+            "forEachProperty": {
+              "!type": "fn(callback: fn(Object, string))",
+              "!url": "https://developers.google.com/maps/documentation/javascript/reference#Data.Feature",
+              "!doc": "Repeatedly invokes the given function, passing a property value and name on each invocation. The order of iteration through the properties is undefined."
+            },
+            "getGeometry": {
+              "!type": "fn() -> google.maps.Data.Geometry",
+              "!url": "https://developers.google.com/maps/documentation/javascript/reference#Data.Feature",
+              "!doc": "Returns the feature's geometry."
+            },
+            "getId": {
+              "!type": "fn() -> string",
+              "!url": "https://developers.google.com/maps/documentation/javascript/reference#Data.Feature",
+              "!doc": "Returns the feature ID"
+            },
+            "getProperty": {
+              "!type": "fn(name: string) -> Object",
+              "!url": "https://developers.google.com/maps/documentation/javascript/reference#Data.Feature",
+              "!doc": "Returns the value of the requested property, or undefined if the property does not exist."
+            },
+            "removeProperty": {
+              "!type": "fn(name: string)",
+              "!url": "https://developers.google.com/maps/documentation/javascript/reference#Data.Feature",
+              "!doc": "Removes the property with the given name."
+            },
+            "setGeometry": {
+              "!type": "fn(newGeometry: google.maps.Data.Geometry)",
+              "!url": "https://developers.google.com/maps/documentation/javascript/reference#Data.Feature",
+              "!doc": "Sets the feature's geometry."
+            },
+            "setGeometry": {
+              "!type": "fn(newGeometry: google.maps.LatLng)",
+              "!url": "https://developers.google.com/maps/documentation/javascript/reference#Data.Feature",
+              "!doc": "Sets the feature's geometry."
+            },
+            "setGeometry": {
+              "!type": "fn(newGeometry: LatLngLiteral)",
+              "!url": "https://developers.google.com/maps/documentation/javascript/reference#Data.Feature",
+              "!doc": "Sets the feature's geometry."
+            },
+            "setProperty": {
+              "!type": "fn(name: string, newValue: Object)",
+              "!url": "https://developers.google.com/maps/documentation/javascript/reference#Data.Feature",
+              "!doc": "Sets the value of the specified property. If newValue is undefined this is equivalent to calling removeProperty."
+            },
+            "toGeoJson": {
+              "!type": "fn(callback: fn(json: Object))",
+              "!url": "https://developers.google.com/maps/documentation/javascript/reference#Data.Feature",
+              "!doc": "Exports the feature to a GeoJSON object."
+            }
           }
         }
       }
