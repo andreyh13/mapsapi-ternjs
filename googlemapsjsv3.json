@@ -220,6 +220,22 @@
             "DataOptions": {
                 "!url": "https://developers.google.com/maps/documentation/javascript/reference#Data.DataOptions",
                 "prototype": {
+                    "controlPosition": {
+                        "!doc": "The position of the drawing controls on the map. The default position is TOP_LEFT.",
+                        "!type": "google.maps.ControlPosition"
+                    },
+                    "controls": {
+                        "!doc": "Describes which drawing modes are available for the user to select, in the order they are displayed. This should not include the null drawing mode, which is added by default. If null, drawing controls are disabled and not displayed. Defaults to null. Possible drawing modes are \"Point\", \"LineString\" or \"Polygon\".",
+                        "!type": "[string]"
+                    },
+                    "drawingMode": {
+                        "!doc": "The current drawing mode of the given Data layer. A drawing mode of null means that the user can interact with the map as normal, and clicks do not draw anything. Defaults to null. Possible drawing modes are null, \"Point\", \"LineString\" or \"Polygon\".",
+                        "!type": "string"
+                    },
+                    "featureFactory": {
+                        "!doc": "When drawing is enabled and a user draws a Geometry (a Point, Line String or Polygon), this function is called with that Geometry and should return a Feature that is to be added to the Data layer. If a featureFactory is not supplied, a Feature with no id and no properties will be created from that Geometry instead. Defaults to null.",
+                        "!type": "fn(p0: google.maps.Data.Geometry)"
+                    },
                     "map": {
                         "!doc": "Map on which to display the features in the collection.",
                         "!type": "google.maps.Map"
@@ -340,6 +356,14 @@
                         "!doc": "Mouse cursor to show on hover. Only applies to point geometries.",
                         "!type": "string"
                     },
+                    "draggable": {
+                        "!doc": "If true, the object can be dragged across the map and the underlying feature will have its geometry updated. Default value is false.",
+                        "!type": "bool"
+                    },
+                    "editable": {
+                        "!doc": "If true, the object can be edited by dragging control points and the underlying feature will have its geometry updated. Only applies to LineString and Polygon geometries. Default value is false.",
+                        "!type": "bool"
+                    },
                     "fillColor": {
                         "!doc": "The fill color. All CSS3 colors are supported except for extended named colors. Only applies to polygon geometries.",
                         "!type": "string"
@@ -403,7 +427,7 @@
                     "!type": "Duration"
                 },
                 "duration_in_traffic": {
-                    "!doc": "The total duration of this leg, taking into account current traffic conditions. This property may be undefined as the duration may be unknown. Only available to Maps API for Work customers when durationInTraffic is set to true when making the request.",
+                    "!doc": "The total duration of this leg, taking into account current traffic conditions. This property may be undefined as the duration may be unknown. Only available to Maps API for Work customers when durationInTraffic is set to true when making the request, and the mode parameter is set to driving.",
                     "!type": "Duration"
                 },
                 "end_address": {
@@ -1089,7 +1113,7 @@
                     "!type": "number"
                 },
                 "orderBy": {
-                    "!doc": "The method by which to sort the results. Accepts either of:  A column name. The column name may be suffixed with ASC or DESC (e.g. col2 DESC) to specify ascending or descending sort.   An ST_DISTANCE spatial relationship (sort by distance). A column and the coordinate from which to calculate distance must be passed, for example, orderBy: 'ST_DISTANCE(col1, LATLNG(1.2, 3.4))'.  ",
+                    "!doc": "The method by which to sort the results. Accepts either of:   A column name. The column name may be suffixed with ASC or DESC (e.g. col2 DESC) to specify ascending or descending sort.   An ST_DISTANCE spatial relationship (sort by distance). A column and the coordinate from which to calculate distance must be passed, for example, orderBy: 'ST_DISTANCE(col1, LATLNG(1.2, 3.4))'.  ",
                     "!type": "string"
                 },
                 "select": {
@@ -1265,7 +1289,7 @@
                     "!type": "[google.maps.LatLng]"
                 },
                 "dissipating": {
-                    "!doc": "Specifies whether heatmaps dissipate on zoom. By default, the radius of influence of a data point is specified by the radius option only. When dissipating is disabled, the radius option is intepreted as a radius at zoom level 0.",
+                    "!doc": "Specifies whether heatmaps dissipate on zoom. By default, the radius of influence of a data point is specified by the radius option only. When dissipating is disabled, the radius option is interpreted as a radius at zoom level 0.",
                     "!type": "bool"
                 },
                 "gradient": {
@@ -1345,7 +1369,7 @@
                 },
                 "getTileUrl": {
                     "!doc": "Returns a string (URL) for given tile coordinate (x, y) and zoom level.",
-                    "!type": "fn(coordinate: google.maps.Point, zoom: number) -> string"
+                    "!type": "fn(p0: google.maps.Point, p1: number)"
                 },
                 "maxZoom": {
                     "!doc": "The maximum zoom level for the map when displaying this MapType.",
@@ -2250,77 +2274,6 @@
                 }
             }
         },
-        "PanoramioFeature": {
-            "!url": "https://developers.google.com/maps/documentation/javascript/reference#PanoramioFeature",
-            "prototype": {
-                "author": {
-                    "!doc": "The username of the user who uploaded this photo.",
-                    "!type": "string"
-                },
-                "photoId": {
-                    "!doc": "The unique identifier for this photo, as used in the Panoramio API (see http://www.panoramio.com/api/widget/api.html).",
-                    "!type": "string"
-                },
-                "title": {
-                    "!doc": "The title of the photo.",
-                    "!type": "string"
-                },
-                "url": {
-                    "!doc": "The URL of the photo.",
-                    "!type": "string"
-                },
-                "userId": {
-                    "!doc": "The unique identifier for the user who uploaded this photo, as used in the Panoramio API (see http://www.panoramio.com/api/widget/api.html).",
-                    "!type": "string"
-                }
-            }
-        },
-        "PanoramioLayerOptions": {
-            "!url": "https://developers.google.com/maps/documentation/javascript/reference#PanoramioLayerOptions",
-            "prototype": {
-                "clickable": {
-                    "!doc": "If true, the layer receives mouse events. Default value is true.",
-                    "!type": "bool"
-                },
-                "map": {
-                    "!doc": "The map on which to display the layer.",
-                    "!type": "google.maps.Map"
-                },
-                "suppressInfoWindows": {
-                    "!doc": "Suppress the rendering of info windows when layer features are clicked.",
-                    "!type": "bool"
-                },
-                "tag": {
-                    "!doc": "A panoramio tag used to filter the photos which are displayed. Only photos which have been tagged with the supplied string will be shown.",
-                    "!type": "string"
-                },
-                "userId": {
-                    "!doc": "A Panoramio user ID. If provided, only photos by this user will be displayed on the map. If both a tag and user ID are provided, the tag will take precedence.",
-                    "!type": "string"
-                }
-            }
-        },
-        "PanoramioMouseEvent": {
-            "!url": "https://developers.google.com/maps/documentation/javascript/reference#PanoramioMouseEvent",
-            "prototype": {
-                "featureDetails": {
-                    "!doc": "A PanoramioFeature object containing information about the clicked feature.",
-                    "!type": "PanoramioFeature"
-                },
-                "infoWindowHtml": {
-                    "!doc": "Pre-rendered HTML content to display within a feature's InfoWindow when clicked.",
-                    "!type": "string"
-                },
-                "latLng": {
-                    "!doc": "The position at which to anchor an info window on the clicked feature.",
-                    "!type": "google.maps.LatLng"
-                },
-                "pixelOffset": {
-                    "!doc": "The offset to apply to an info window anchored on the clicked feature.",
-                    "!type": "google.maps.Size"
-                }
-            }
-        },
         "PathElevationRequest": {
             "!url": "https://developers.google.com/maps/documentation/javascript/reference#PathElevationRequest",
             "prototype": {
@@ -2472,7 +2425,7 @@
                     "!type": "string"
                 },
                 "price_level": {
-                    "!doc": "The price level of the Place, on a scale of 0 to 4. Price levels are interpreted as follows: Value Description 0 Free 1 Inexpensive 2 Moderate 3 Expensive 4 Very Expensive ",
+                    "!doc": "The price level of the Place, on a scale of 0 to 4. Price levels are interpreted as follows:   Value Description   0 Free   1 Inexpensive   2 Moderate   3 Expensive   4 Very Expensive  ",
                     "!type": "number"
                 },
                 "rating": {
@@ -3056,7 +3009,7 @@
                 },
                 "panoProvider": {
                     "!doc": "Custom panorama provider, which takes a string pano id and returns an object defining the panorama given that id. This function must be defined to specify custom panorama imagery.",
-                    "!type": "fn(panoId: string) -> StreetViewPanoramaData"
+                    "!type": "fn(p0: string)"
                 },
                 "position": {
                     "!doc": "The LatLng position of the Street View panorama.",
@@ -3105,7 +3058,7 @@
                     "!type": "number"
                 },
                 "getTileUrl": {
-                    "!doc": "Gets the tile image URL for the specified tile.pano is the panorama ID of the Street View tile.tileZoom is the zoom level of the tile.tileX is the x-coordinate of the tile.tileY is the y-coordinate of the tile. Returns the URL for the tile image.",
+                    "!doc": "Gets the tile image URL for the specified tile. pano is the panorama ID of the Street View tile. tileZoom is the zoom level of the tile. tileX is the x-coordinate of the tile. tileY is the y-coordinate of the tile. Returns the URL for the tile image.",
                     "!type": "fn(pano: string, tileZoom: number, tileX: number, tileY: number) -> string"
                 },
                 "tileSize": {
@@ -3455,147 +3408,6 @@
             "TROLLEYBUS": {
                 "!doc": "Trolleybus.",
                 "!type": "string"
-            }
-        },
-        "WeatherConditions": {
-            "!url": "https://developers.google.com/maps/documentation/javascript/reference#WeatherConditions",
-            "prototype": {
-                "day": {
-                    "!doc": "The current day of the week in long form, e.g. \"Monday\".",
-                    "!type": "string"
-                },
-                "description": {
-                    "!doc": "A description of the conditions, e.g. \"Partly Cloudy\".",
-                    "!type": "string"
-                },
-                "high": {
-                    "!doc": "The highest temperature reached during the day.",
-                    "!type": "number"
-                },
-                "humidity": {
-                    "!doc": "The current humidity, expressed as a percentage.",
-                    "!type": "number"
-                },
-                "low": {
-                    "!doc": "The lowest temperature reached during the day.",
-                    "!type": "number"
-                },
-                "shortDay": {
-                    "!doc": "The current day of the week in short form, e.g. \"M\".",
-                    "!type": "string"
-                },
-                "temperature": {
-                    "!doc": "The current temperature, in the specified temperature units.",
-                    "!type": "number"
-                },
-                "windDirection": {
-                    "!doc": "The current wind direction.",
-                    "!type": "string"
-                },
-                "windSpeed": {
-                    "!doc": "The current wind speed, in the specified wind speed units.",
-                    "!type": "number"
-                }
-            }
-        },
-        "WeatherFeature": {
-            "!url": "https://developers.google.com/maps/documentation/javascript/reference#WeatherFeature",
-            "prototype": {
-                "current": {
-                    "!doc": "The current weather conditions at this location.",
-                    "!type": "WeatherConditions"
-                },
-                "forecast": {
-                    "!doc": "A forecast of weather conditions over the next four days. The forecast array is always in chronological order.",
-                    "!type": "[WeatherForecast]"
-                },
-                "location": {
-                    "!doc": "The location name of this feature, e.g. \"San Francisco, California\".",
-                    "!type": "string"
-                },
-                "temperatureUnit": {
-                    "!doc": "The temperature units being used.",
-                    "!type": "google.maps.weather.TemperatureUnit"
-                },
-                "windSpeedUnit": {
-                    "!doc": "The wind speed units being used.",
-                    "!type": "google.maps.weather.WindSpeedUnit"
-                }
-            }
-        },
-        "WeatherForecast": {
-            "!url": "https://developers.google.com/maps/documentation/javascript/reference#WeatherForecast",
-            "prototype": {
-                "day": {
-                    "!doc": "The day of the week in long form, e.g. \"Monday\".",
-                    "!type": "string"
-                },
-                "description": {
-                    "!doc": "A description of the conditions, e.g. \"Partly Cloudy\".",
-                    "!type": "string"
-                },
-                "high": {
-                    "!doc": "The highest temperature reached during the day.",
-                    "!type": "number"
-                },
-                "low": {
-                    "!doc": "The lowest temperature reached during the day.",
-                    "!type": "number"
-                },
-                "shortDay": {
-                    "!doc": "The day of the week in short form, e.g. \"M\".",
-                    "!type": "string"
-                }
-            }
-        },
-        "WeatherLayerOptions": {
-            "!url": "https://developers.google.com/maps/documentation/javascript/reference#WeatherLayerOptions",
-            "prototype": {
-                "clickable": {
-                    "!doc": "If true, the layer receives mouse events. Default value is true.",
-                    "!type": "bool"
-                },
-                "labelColor": {
-                    "!doc": "The color of labels on the weather layer. If this is not explicitly set, the label color is chosen automatically depending on the map type.",
-                    "!type": "google.maps.weather.LabelColor"
-                },
-                "map": {
-                    "!doc": "The map on which to display the layer.",
-                    "!type": "google.maps.Map"
-                },
-                "suppressInfoWindows": {
-                    "!doc": "Suppress the rendering of info windows when weather icons are clicked.",
-                    "!type": "bool"
-                },
-                "temperatureUnits": {
-                    "!doc": "The units to use for temperature.",
-                    "!type": "google.maps.weather.TemperatureUnit"
-                },
-                "windSpeedUnits": {
-                    "!doc": "The units to use for wind speed.",
-                    "!type": "google.maps.weather.WindSpeedUnit"
-                }
-            }
-        },
-        "WeatherMouseEvent": {
-            "!url": "https://developers.google.com/maps/documentation/javascript/reference#WeatherMouseEvent",
-            "prototype": {
-                "featureDetails": {
-                    "!doc": "A WeatherFeature object containing information about the clicked feature.",
-                    "!type": "WeatherFeature"
-                },
-                "infoWindowHtml": {
-                    "!doc": "Pre-rendered HTML content to display within a feature's InfoWindow when clicked.",
-                    "!type": "string"
-                },
-                "latLng": {
-                    "!doc": "The position at which to anchor an info window on the clicked feature.",
-                    "!type": "google.maps.LatLng"
-                },
-                "pixelOffset": {
-                    "!doc": "The offset to apply to an info window anchored on the clicked feature.",
-                    "!type": "google.maps.Size"
-                }
             }
         },
         "WeightedLocation": {
@@ -4076,6 +3888,18 @@
                         "!doc": "Repeatedly invokes the given function, passing a feature in the collection to the function on each invocation. The order of iteration through the features is undefined.",
                         "!type": "fn(callback: fn(p0: google.maps.Data.Feature))"
                     },
+                    "getControlPosition": {
+                        "!doc": "Returns the position of the drawing controls on the map.",
+                        "!type": "fn() -> google.maps.ControlPosition"
+                    },
+                    "getControls": {
+                        "!doc": "Returns which drawing modes are available for the user to select, in the order they are displayed. This does not include the null drawing mode, which is added by default. Possible drawing modes are \"Point\", \"LineString\" or \"Polygon\".",
+                        "!type": "fn() -> [string]"
+                    },
+                    "getDrawingMode": {
+                        "!doc": "Returns the current drawing mode of the given Data layer. A drawing mode of null means that the user can interact with the map as normal, and clicks do not draw anything. Possible drawing modes are null, \"Point\", \"LineString\" or \"Polygon\".",
+                        "!type": "fn() -> string"
+                    },
                     "getFeatureById": {
                         "!doc": "Returns the feature with the given ID, if it exists in the collection. Otherwise returns undefined.  Note that the IDs 1234 and '1234' are equivalent. Either can be used to look up the same feature.",
                         "!type": "fn(id: ?) -> Object"
@@ -4103,6 +3927,18 @@
                     "revertStyle": {
                         "!doc": "Removes the effect of previous overrideStyle() calls. The style of the given feature reverts to the style specified by setStyle(). If no feature is given, all features have their style reverted.",
                         "!type": "fn(feature?: google.maps.Data.Feature)"
+                    },
+                    "setControlPosition": {
+                        "!doc": "Sets the position of the drawing controls on the map.",
+                        "!type": "fn(controlPosition: google.maps.ControlPosition)"
+                    },
+                    "setControls": {
+                        "!doc": "Sets which drawing modes are available for the user to select, in the order they are displayed. This should not include the null drawing mode, which is added by default. If null, drawing controls are disabled and not displayed. Possible drawing modes are \"Point\", \"LineString\" or \"Polygon\".",
+                        "!type": "fn(controls: [string])"
+                    },
+                    "setDrawingMode": {
+                        "!doc": "Sets the current drawing mode of the given Data layer. A drawing mode of null means that the user can interact with the map as normal, and clicks do not draw anything. Possible drawing modes are null, \"Point\", \"LineString\" or \"Polygon\".",
+                        "!type": "fn(drawingMode: string)"
                     },
                     "setMap": {
                         "!doc": "Renders the features on the specified map. If map is set to null, the features will be removed from the map.",
@@ -5871,19 +5707,19 @@
                 "!url": "https://developers.google.com/maps/documentation/javascript/reference#event",
                 "addDomListener": {
                     "!doc": "Cross browser event handler registration. This listener is removed by calling removeListener(handle) for the handle that is returned by this function.",
-                    "!type": "fn(instance: Object, eventName: string, handler: Function, capture?: bool) -> MapsEventListener"
+                    "!type": "fn(instance: Object, eventName: string, handler: fn(p0: ?), capture?: bool) -> MapsEventListener"
                 },
                 "addDomListenerOnce": {
                     "!doc": "Wrapper around addDomListener that removes the listener after the first event.",
-                    "!type": "fn(instance: Object, eventName: string, handler: Function, capture?: bool) -> MapsEventListener"
+                    "!type": "fn(instance: Object, eventName: string, handler: fn(p0: ?), capture?: bool) -> MapsEventListener"
                 },
                 "addListener": {
                     "!doc": "Adds the given listener function to the given event name for the given object instance. Returns an identifier for this listener that can be used with removeListener().",
-                    "!type": "fn(instance: Object, eventName: string, handler: Function) -> MapsEventListener"
+                    "!type": "fn(instance: Object, eventName: string, handler: fn(p0: ?)) -> MapsEventListener"
                 },
                 "addListenerOnce": {
                     "!doc": "Like addListener, but the handler removes itself after handling the first event.",
-                    "!type": "fn(instance: Object, eventName: string, handler: Function) -> MapsEventListener"
+                    "!type": "fn(instance: Object, eventName: string, handler: fn(p0: ?)) -> MapsEventListener"
                 },
                 "clearInstanceListeners": {
                     "!doc": "Removes all listeners for all events for the given instance.",
@@ -5961,43 +5797,6 @@
                     }
                 }
             },
-            "panoramio": {
-                "PanoramioLayer": {
-                    "!doc": "A layer that displays data from Panoramio.",
-                    "!type": "fn(opts?: PanoramioLayerOptions) -> +google.maps.panoramio.PanoramioLayer",
-                    "!url": "https://developers.google.com/maps/documentation/javascript/reference#PanoramioLayer",
-                    "prototype": {
-                        "getMap": {
-                            "!doc": "Returns the map on which this layer is displayed.",
-                            "!type": "fn() -> google.maps.Map"
-                        },
-                        "getTag": {
-                            "!doc": "",
-                            "!type": "fn() -> string"
-                        },
-                        "getUserId": {
-                            "!doc": "",
-                            "!type": "fn() -> string"
-                        },
-                        "setMap": {
-                            "!doc": "Renders the layer on the specified map. If map is set to null, the layer will be removed.",
-                            "!type": "fn(map: google.maps.Map)"
-                        },
-                        "setOptions": {
-                            "!doc": "",
-                            "!type": "fn(options: PanoramioLayerOptions)"
-                        },
-                        "setTag": {
-                            "!doc": "",
-                            "!type": "fn(tag: string)"
-                        },
-                        "setUserId": {
-                            "!doc": "",
-                            "!type": "fn(userId: string)"
-                        }
-                    }
-                }
-            },
             "places": {
                 "Autocomplete": {
                     "!doc": "Creates a new instance of Autocomplete that attaches to the specified input text field with the given options.",
@@ -6051,7 +5850,7 @@
                             "!type": "fn(request: PlaceDetailsRequest, callback: fn(p0: PlaceResult, p1: PlacesServiceStatus))"
                         },
                         "nearbySearch": {
-                            "!doc": "Retrieves a list of Places in a given area. The PlaceResults passed to the callback are stripped-down versions of a full PlaceResult. A more detailed PlaceResult for each Place can be obtained by sending a Place Details request with the desired Place's placeId value.",
+                            "!doc": "Retrieves a list of Places in a given area. The PlaceResults passed to the callback are stripped-down versions of a full PlaceResult. A more detailed PlaceResult for each Place can be obtained by sending a Place Details request with the desired Place's placeId value. The PlaceSearchPagination object can be used to fetch additional pages of results (null if this is the last page of results or if there is only one page of results).",
                             "!type": "fn(request: PlaceSearchRequest, callback: fn(p0: [PlaceResult], p1: PlacesServiceStatus, p2: PlaceSearchPagination))"
                         },
                         "radarSearch": {
@@ -6059,8 +5858,8 @@
                             "!type": "fn(request: RadarSearchRequest, callback: fn(p0: [PlaceResult], p1: PlacesServiceStatus))"
                         },
                         "textSearch": {
-                            "!doc": "Similar to the nearbySearch function, with the following differences: it retrieves a list of Places based on the query attribute in the given request object; bounds or location  + radius parameters are optional; and the region, when provided, will not restrict the results to places inside the area, only bias the response towards results near it.",
-                            "!type": "fn(request: TextSearchRequest, callback: fn(p0: [PlaceResult], p1: PlacesServiceStatus))"
+                            "!doc": "Similar to the nearbySearch function, with the following differences: it retrieves a list of Places based on the query attribute in the given request object; bounds or location  + radius parameters are optional; and the region, when provided, will not restrict the results to places inside the area, only bias the response towards results near it. The PlaceSearchPagination object can be used to fetch additional pages of results (null if this is the last page of results or if there is only one page of results).",
+                            "!type": "fn(request: TextSearchRequest, callback: fn(p0: [PlaceResult], p1: PlacesServiceStatus, p2: PlaceSearchPagination))"
                         }
                     }
                 },
@@ -6205,6 +6004,10 @@
                         "setMap": {
                             "!doc": "Renders the heatmap on the specified map. If map is set to null, the heatmap will be removed.",
                             "!type": "fn(map: google.maps.Map)"
+                        },
+                        "setOptions": {
+                            "!doc": "",
+                            "!type": "fn(options: HeatmapLayerOptions)"
                         }
                     }
                 },
@@ -6274,82 +6077,6 @@
                             "!type": "fn(zIndex: number)"
                         }
                     }
-                }
-            },
-            "weather": {
-                "CloudLayer": {
-                    "!doc": "Creates a new CloudLayer instance that displays a cloud overlay.",
-                    "!type": "fn() -> +google.maps.weather.CloudLayer",
-                    "!url": "https://developers.google.com/maps/documentation/javascript/reference#CloudLayer",
-                    "prototype": {
-                        "getMap": {
-                            "!doc": "Returns the map on which this layer is displayed.",
-                            "!type": "fn() -> google.maps.Map"
-                        },
-                        "setMap": {
-                            "!doc": "Renders the layer on the specified map. If map is set to null, the layer will be removed.",
-                            "!type": "fn(map: google.maps.Map)"
-                        }
-                    }
-                },
-                "LabelColor": {
-                    "!url": "https://developers.google.com/maps/documentation/javascript/reference#LabelColor",
-                    "BLACK": {
-                        "!doc": "Weather labels will be displayed as black text with a white border.",
-                        "!type": "string"
-                    },
-                    "WHITE": {
-                        "!doc": "Weather labels will be displayed as white text with a black border.",
-                        "!type": "string"
-                    },
-                    "prototype": {}
-                },
-                "TemperatureUnit": {
-                    "!url": "https://developers.google.com/maps/documentation/javascript/reference#TemperatureUnit",
-                    "CELSIUS": {
-                        "!doc": "Specifies that temperatures should be displayed in degrees Celsius.",
-                        "!type": "string"
-                    },
-                    "FAHRENHEIT": {
-                        "!doc": "Specifies that temperatures should be displayed in degrees Fahrenheit.",
-                        "!type": "string"
-                    },
-                    "prototype": {}
-                },
-                "WeatherLayer": {
-                    "!doc": "Creates a new WeatherLayer instance that displays weather icons.",
-                    "!type": "fn(opts?: WeatherLayerOptions) -> +google.maps.weather.WeatherLayer",
-                    "!url": "https://developers.google.com/maps/documentation/javascript/reference#WeatherLayer",
-                    "prototype": {
-                        "getMap": {
-                            "!doc": "Returns the map on which this layer is displayed.",
-                            "!type": "fn() -> google.maps.Map"
-                        },
-                        "setMap": {
-                            "!doc": "Renders the layer on the specified map. If map is set to null, the layer will be removed.",
-                            "!type": "fn(map: google.maps.Map)"
-                        },
-                        "setOptions": {
-                            "!doc": "Sets the WeatherLayer's options.",
-                            "!type": "fn(options: WeatherLayerOptions)"
-                        }
-                    }
-                },
-                "WindSpeedUnit": {
-                    "!url": "https://developers.google.com/maps/documentation/javascript/reference#WindSpeedUnit",
-                    "KILOMETERS_PER_HOUR": {
-                        "!doc": "Specifies that wind speeds should be displayed in kilometers per hour.",
-                        "!type": "string"
-                    },
-                    "METERS_PER_SECOND": {
-                        "!doc": "Specifies that wind speeds should be displayed in meters per second.",
-                        "!type": "string"
-                    },
-                    "MILES_PER_HOUR": {
-                        "!doc": "Specifies that wind speeds should be displayed in miles per hour.",
-                        "!type": "string"
-                    },
-                    "prototype": {}
                 }
             }
         }

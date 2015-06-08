@@ -372,12 +372,24 @@ l_objects = list()
 l_classes = dict()
 l_namespaces = dict()
 
-content = doc.getElementById("gc-content")
+content = doc.getElementById("gc-wrapper")
+
+
+#doc.getElementsByClassName("devsite-article-body")
+
 wrapper = None
 for node in content.childNodes:
-	if node.tagName == 'div':
-		wrapper = node
-		break
+	if node.tagName == 'div' and node.hasAttribute('class') and node.getAttribute('class')=='devsite-main-content clearfix':
+		for n1 in node.childNodes:
+			if n1.tagName == 'article':
+				for n2 in n1.childNodes:
+					if n2.tagName == 'div' and n2.hasAttribute('class') and n2.getAttribute('class')=='devsite-article-inner':
+						for n3 in n2.childNodes:
+							if n3.tagName == 'div' and n3.hasAttribute('itemprop') and n3.getAttribute('itemprop')=='articleBody':
+								wrapper = n3
+								break
+
+print wrapper
 
 if wrapper is not None:
 	for node in wrapper.childNodes:
