@@ -12,6 +12,7 @@ def collect_text(node):
     return s
 
 def processH2(node, data, classes, objects):
+	#print "Processing H2"
 	path = ''
 	obj = ''
 	obj_type = ''
@@ -55,7 +56,55 @@ def processH2(node, data, classes, objects):
 				if not o in target:
 					target[o] = dict()
 				target = target[o]	
-			target["!url"] = docs_ref + "#" + node.getAttribute("id")	
+			target["!url"] = docs_ref + "#" + node.getAttribute("id")
+
+def processP(node, data, classes, objects):
+	path = ''
+	obj = ''
+	obj_type = ''
+	for child in node.childNodes:
+		if child.tagName == "code":
+			for child1 in child.childNodes: 
+				if child1.tagName == 'span' and child1.hasAttribute('itemprop') and child1.getAttribute('itemprop') == 'path':
+					path = collect_text(child1)
+				if child1.tagName == 'span' and child1.hasAttribute('itemprop') and child1.getAttribute('itemprop') == 'name':
+					obj = collect_text(child1)
+		if child.nodeType == child.TEXT_NODE:
+			obj_type = child.nodeValue
+
+	if path != '' and obj != '' and obj_type != '':
+		arr_path = path.split('.')
+		target = data
+		for p in arr_path:
+			if not p in target:
+				target[p] = dict()
+			target = target[p]
+		arr_obj = obj.split('.')	
+		if 'class' in obj_type:
+			classes[obj] = path + '.' + obj
+			for o in arr_obj:
+				if not o in target:
+					target[o] = dict()
+				target = target[o]
+			target["!url"] = docs_ref + "#" + obj
+			target["prototype"] = dict()
+			#target["!type"] = '?'	
+		elif 'object' in obj_type:
+			objects.append(obj)
+			target = data['!define']
+			for o in arr_obj:
+				if not o in target:
+					target[o] = dict()
+				target = target[o]
+			target["!url"] = docs_ref + "#" + obj
+			#target["!type"] = 'Object'
+		elif 'namespace' in obj_type:
+			l_namespaces[obj] = path + '.' + obj
+			for o in arr_obj:
+				if not o in target:
+					target[o] = dict()
+				target = target[o]	
+			target["!url"] = docs_ref + "#" + obj				
 
 def processParameterOptions(options):
 	res = list()
@@ -154,6 +203,7 @@ def getObject(obj):
 def processConstructor(obj, node):
 	func = ''
 	descr = ''
+	#print "Process constructor"
 	for child in node.childNodes:
 		if child.tagName == 'tbody':
 			for tr in child.childNodes:
@@ -197,9 +247,14 @@ def processMethods(obj, node):
 							if count == 0:
 								func = collect_text(td)
 							elif count == 1:
-								ftype = collect_text(td)
-							elif count == 2:	
-								descr = collect_text(td)
+								for div in td.childNodes:
+									if div.tagName == 'div':
+										if div.hasAttribute("class") and div.getAttribute("class") == 'desc':
+											descr = collect_text(div)
+										else:
+											for code in div.childNodes:
+												if code.tagName == 'code':		 
+													ftype = collect_text(code)
 							count += 1	
 					#print func		
 					fname = func[0 : func.index("(")]		
@@ -210,7 +265,7 @@ def processMethods(obj, node):
 						#print param_str
 						resf += processFuncParameters(param_str)
 					resf += ')'
-					if(ftype != 'None'):	
+					if(ftype != 'None' and ftype != ''):	
 						resf += ' -> ' + checkParameterType(l_classes[ftype] if ftype in l_classes.keys() else processReturnType(ftype))
 
 					if not "prototype" in target:
@@ -235,9 +290,14 @@ def processProperties(obj, node):
 							if count == 0:
 								prop = collect_text(td)
 							elif count == 1:
-								ptype = collect_text(td)
-							elif count == 2:	
-								pdescr = collect_text(td)
+								for div in td.childNodes:
+									if div.tagName == 'div':
+										if div.hasAttribute("class") and div.getAttribute("class") == 'desc':
+											pdescr = collect_text(div)
+										else:
+											for code in div.childNodes:
+												if code.tagName == 'code':		 
+													ptype = collect_text(code)	
 							count += 1	
 					#print prop		
 
@@ -305,9 +365,14 @@ def processStaticMethods(obj, node):
 							if count == 0:
 								func = collect_text(td)
 							elif count == 1:
-								ftype = collect_text(td)
-							elif count == 2:	
-								descr = collect_text(td)
+								for div in td.childNodes:
+									if div.tagName == 'div':
+										if div.hasAttribute("class") and div.getAttribute("class") == 'desc':
+											descr = collect_text(div)
+										else:
+											for code in div.childNodes:
+												if code.tagName == 'code':		 
+													ftype = collect_text(code)	
 							count += 1	
 					#print func		
 					fname = func[0 : func.index("(")]		
@@ -318,7 +383,7 @@ def processStaticMethods(obj, node):
 						#print param_str
 						resf += processFuncParameters(param_str)
 					resf += ')'
-					if(ftype != 'None'):	
+					if(ftype != 'None' and ftype != ''):	
 						resf += ' -> ' + checkParameterType(l_classes[ftype] if ftype in l_classes.keys() else processReturnType(ftype))
 
 					target[fname] = dict()
@@ -329,6 +394,8 @@ def processOneRefObject(node, data, classes, objects):
 	for child in node.childNodes:
 		if child.tagName == 'h2' and child.hasAttribute('id'):
 			processH2(child, data, classes, objects)
+		if child.tagName == 'p':
+			processP(child, data, classes, objects)	
 
 def processOneRefObjectTables(node):
 	for child in node.childNodes:
@@ -395,6 +462,9 @@ if wrapper is not None:
 	for node in wrapper.childNodes:
 		if node.tagName == 'div' and node.hasAttribute('itemscope') and node.hasAttribute('itemtype') and node.getAttribute('itemtype') == 'http://developers.google.com/ReferenceObject':
 			processOneRefObject(node, data_struc, l_classes, l_objects) 
+
+	#print l_classes		
+
 	for node in wrapper.childNodes:
 		if node.tagName == 'div' and node.hasAttribute('itemscope') and node.hasAttribute('itemtype') and node.getAttribute('itemtype') == 'http://developers.google.com/ReferenceObject':
 			processOneRefObjectTables(node)		
@@ -406,5 +476,5 @@ str_json = json.dumps(data_struc, sort_keys=True, indent=4, separators=(',', ': 
 # Open a file
 fo = open("_googlemapsjsv3.json", "w")
 fo.write(str_json);
-# Close opend file
+# Close the file
 fo.close()
