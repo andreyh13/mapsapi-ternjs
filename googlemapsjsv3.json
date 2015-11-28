@@ -67,7 +67,7 @@
             "prototype": {
                 "bounds": {
                     "!doc": "The area in which to search for places. Results are biased towards, but not restricted to, places contained within these bounds.",
-                    "!type": "google.maps.LatLngBounds"
+                    "!type": "Object"
                 },
                 "componentRestrictions": {
                     "!doc": "The component restrictions. Component restrictions are used to restrict predictions to only those within the parent component. E.g., the country.",
@@ -109,7 +109,7 @@
             "prototype": {
                 "bounds": {
                     "!doc": "Bounds for prediction biasing. Predictions will be biased towards, but not restricted to, the given bounds. Both location and radius will be ignored if bounds is set.",
-                    "!type": "google.maps.LatLngBounds"
+                    "!type": "Object"
                 },
                 "componentRestrictions": {
                     "!doc": "The component restrictions. Component restrictions are used to restrict predictions to only those within the parent component. E.g., the country.",
@@ -444,7 +444,7 @@
                     "!type": "Duration"
                 },
                 "duration_in_traffic": {
-                    "!doc": "The total duration of this leg, taking into account current traffic conditions. This property may be undefined as the duration may be unknown. Only available to Maps API for Work customers when durationInTraffic is set to true when making the request.",
+                    "!doc": "The total duration of this leg, taking into account the traffic conditions indicated by the trafficModel property. This property may be undefined as the duration may be unknown. Only available to Maps for Work customers when drivingOptions is defined when making the request.",
                     "!type": "Duration"
                 },
                 "end_address": {
@@ -550,20 +550,20 @@
                     "!type": "bool"
                 },
                 "destination": {
-                    "!doc": "Location of destination. This can be specified as either a string to be geocoded or a LatLng. Required.",
-                    "!type": "Object"
+                    "!doc": "Location of destination. This can be specified as either a string to be geocoded, or a LatLng, or a Place. Required.",
+                    "!type": "Place"
                 },
-                "durationInTraffic": {
-                    "!doc": "Whether or not we should provide trip duration based on current traffic conditions. Only available to Maps API for Work customers.",
-                    "!type": "bool"
+                "drivingOptions": {
+                    "!doc": "Settings that apply only to requests where travelMode is DRIVING. This object will have no effect for other travel modes.",
+                    "!type": "DrivingOptions"
                 },
                 "optimizeWaypoints": {
                     "!doc": "If set to true, the DirectionService will attempt to re-order the supplied intermediate waypoints to minimize overall cost of the route. If waypoints are optimized, inspect DirectionsRoute.waypoint_order in the response to determine the new ordering.",
                     "!type": "bool"
                 },
                 "origin": {
-                    "!doc": "Location of origin. This can be specified as either a string to be geocoded or a LatLng. Required.",
-                    "!type": "Object"
+                    "!doc": "Location of origin. This can be specified as either a string to be geocoded, or a LatLng, or a Place. Required.",
+                    "!type": "Place"
                 },
                 "provideRouteAlternatives": {
                     "!doc": "Whether or not route alternatives should be provided. Optional.",
@@ -686,8 +686,8 @@
             "!url": "https://developers.google.com/maps/documentation/javascript/reference#DirectionsWaypoint",
             "prototype": {
                 "location": {
-                    "!doc": "Waypoint location. Can be an address string or LatLng. Optional.",
-                    "!type": "Object"
+                    "!doc": "Waypoint location. Can be an address string, a LatLng, or a Place. Optional.",
+                    "!type": "Place"
                 },
                 "stopover": {
                     "!doc": "If true, indicates that this waypoint is a stop between the origin and destination. This has the effect of splitting the route into two. This value is true by default. Optional.",
@@ -724,16 +724,16 @@
                     "!type": "bool"
                 },
                 "destinations": {
-                    "!doc": "An array containing destination address strings and/or LatLngs, to which to calculate distance and time. Required.",
-                    "!type": "Object"
+                    "!doc": "An array containing destination address strings, or LatLng, or Place objects, to which to calculate distance and time. Required.",
+                    "!type": "[Place]"
                 },
-                "durationInTraffic": {
-                    "!doc": "Whether or not we should provide trip durations based on current traffic conditions. Only available to Maps API for Work customers.",
-                    "!type": "bool"
+                "drivingOptions": {
+                    "!doc": "Settings that apply only to requests where travelMode is DRIVING. This object will have no effect for other travel modes.",
+                    "!type": "DrivingOptions"
                 },
                 "origins": {
-                    "!doc": "An array containing origin address strings and/or LatLngs, from which to calculate distance and time. Required.",
-                    "!type": "Object"
+                    "!doc": "An array containing origin address strings, or LatLng, or Place objects, from which to calculate distance and time. Required.",
+                    "!type": "[Place]"
                 },
                 "region": {
                     "!doc": "Region code used as a bias for geocoding requests. Optional.",
@@ -779,6 +779,10 @@
                 },
                 "duration": {
                     "!doc": "The duration for this origin-destination pairing. This property may be undefined as the duration may be unknown.",
+                    "!type": "Duration"
+                },
+                "duration_in_traffic": {
+                    "!doc": "The duration for this origin-destination pairing, taking into account the traffic conditions indicated by the trafficModel property. This property may be undefined as the duration may be unknown. Only available to Maps for Work customers when drivingOptions is defined when making the request.",
                     "!type": "Duration"
                 },
                 "fare": {
@@ -851,6 +855,19 @@
                 "rectangleOptions": {
                     "!doc": "Options to apply to any new rectangles created with this DrawingManager. The bounds property is ignored, and the map property of a new rectangle is always set to the DrawingManager's map.",
                     "!type": "RectangleOptions"
+                }
+            }
+        },
+        "DrivingOptions": {
+            "!url": "https://developers.google.com/maps/documentation/javascript/reference#DrivingOptions",
+            "prototype": {
+                "departureTime": {
+                    "!doc": "The desired departure time for the route, specified as a Date object. The Date object measures time in milliseconds since 1 January 1970. This must be specified for a DrivingOptions to be valid. The departure time must be set to the current time or some time in the future. It cannot be in the past. Only available to Maps for Work customers.",
+                    "!type": "Date"
+                },
+                "trafficModel": {
+                    "!doc": "The preferred assumption to use when predicting duration in traffic. The default is BEST_GUESS. Only available to Maps for Work customers.",
+                    "!type": "google.maps.TrafficModel"
                 }
             }
         },
@@ -1240,7 +1257,7 @@
                 },
                 "bounds": {
                     "!doc": "LatLngBounds within which to search. Optional.",
-                    "!type": "google.maps.LatLngBounds"
+                    "!type": "Object"
                 },
                 "componentRestrictions": {
                     "!doc": "Components are used to restrict results to a specific area. A filter consists of one or more of: route, locality, administrativeArea, postalCode, country. Only the results that match all the filters will be returned. Filter values support the same methods of spelling correction and partial matching as other geocoding requests. Optional.",
@@ -1576,6 +1593,27 @@
                 }
             }
         },
+        "LatLngBoundsLiteral": {
+            "!url": "https://developers.google.com/maps/documentation/javascript/reference#LatLngBoundsLiteral",
+            "prototype": {
+                "east": {
+                    "!doc": "East longitude in degrees. Values outside the range [-180, 180] will be wrapped to the range [-180, 180). For example, a value of -190 will be converted to 170. A value of 190 will be converted to -170. This reflects the fact that longitudes wrap around the globe.",
+                    "!type": "number"
+                },
+                "north": {
+                    "!doc": "North latitude in degrees. Values will be clamped to the range [-90, 90]. This means that if the value specified is less than -90, it will be set to -90. And if the value is greater than 90, it will be set to 90.",
+                    "!type": "number"
+                },
+                "south": {
+                    "!doc": "South latitude in degrees. Values will be clamped to the range [-90, 90]. This means that if the value specified is less than -90, it will be set to -90. And if the value is greater than 90, it will be set to 90.",
+                    "!type": "number"
+                },
+                "west": {
+                    "!doc": "West longitude in degrees. Values outside the range [-180, 180] will be wrapped to the range [-180, 180). For example, a value of -190 will be converted to 170. A value of 190 will be converted to -170. This reflects the fact that longitudes wrap around the globe.",
+                    "!type": "number"
+                }
+            }
+        },
         "LatLngLiteral": {
             "!url": "https://developers.google.com/maps/documentation/javascript/reference#LatLngLiteral",
             "prototype": {
@@ -1691,19 +1729,19 @@
                     "!type": "bool"
                 },
                 "overviewMapControl": {
-                    "!doc": "The enabled/disabled state of the Overview Map control.",
+                    "!doc": "The enabled/disabled state of the Overview Map control.  Note: The Overview Map control is not available in the new set of controls introduced in v3.22 of the Google Maps JavaScript API. While using v3.22 and v3.23, you can choose to use the earlier set of controls rather than the new controls, thus making the Overview Map control available as part of the old control set. See What's New in the v3.22 Map Controls.",
                     "!type": "bool"
                 },
                 "overviewMapControlOptions": {
-                    "!doc": "The display options for the Overview Map control.",
+                    "!doc": "The display options for the Overview Map control.  Note: The Overview Map control is not available in the new set of controls introduced in v3.22 of the Google Maps JavaScript API. While using v3.22 and v3.23, you can choose to use the earlier set of controls rather than the new controls, thus making the Overview Map control available as part of the old control set. See What's New in the v3.22 Map Controls.",
                     "!type": "OverviewMapControlOptions"
                 },
                 "panControl": {
-                    "!doc": "The enabled/disabled state of the Pan control.",
+                    "!doc": "The enabled/disabled state of the Pan control.  Note: The Pan control is not available in the new set of controls introduced in v3.22 of the Google Maps JavaScript API. While using v3.22 and v3.23, you can choose to use the earlier set of controls rather than the new controls, thus making the Pan control available as part of the old control set. See What's New in the v3.22 Map Controls.",
                     "!type": "bool"
                 },
                 "panControlOptions": {
-                    "!doc": "The display options for the Pan control.",
+                    "!doc": "The display options for the Pan control.  Note: The Pan control is not available in the new set of controls introduced in v3.22 of the Google Maps JavaScript API. While using v3.22 and v3.23, you can choose to use the earlier set of controls rather than the new controls, thus making the Pan control available as part of the old control set. See What's New in the v3.22 Map Controls.",
                     "!type": "PanControlOptions"
                 },
                 "rotateControl": {
@@ -2505,11 +2543,11 @@
                     "!type": "[string]"
                 },
                 "url": {
-                    "!doc": "URL of the official Google page for this place. This will be the establishment's Google+ page if the Google+ page exists, otherwise it will be the Google-owned page that contains the best available information about the place.",
+                    "!doc": "URL of the official Google page for this place. This is the Google-owned page that contains the best available information about the place.",
                     "!type": "string"
                 },
                 "utc_offset": {
-                    "!doc": "The offset from UTC of the place's current timezone, in minutes. For example, Sydney, Australia in daylight savings is 11 hours ahead of UTC, so the utc_offset will be 660. For timezones behind UTC, the offset is negative. For example, utc_offest is -60 for Cape Verde.",
+                    "!doc": "The offset from UTC of the Place's current timezone, in minutes. For example, Sydney, Australia in daylight savings is 11 hours ahead of UTC, so the utc_offset will be 660. For timezones behind UTC, the offset is negative. For example, utc_offest is -60 for Cape Verde.",
                     "!type": "number"
                 },
                 "vicinity": {
@@ -2565,7 +2603,7 @@
             "prototype": {
                 "bounds": {
                     "!doc": "The bounds within which to search for Places. Both location and radius will be ignored if bounds is set.",
-                    "!type": "google.maps.LatLngBounds"
+                    "!type": "Object"
                 },
                 "keyword": {
                     "!doc": "A term to be matched against all available fields, including but not limited to name, type, and address, as well as customer reviews and other third-party content.",
@@ -2801,7 +2839,7 @@
             "prototype": {
                 "bounds": {
                     "!doc": "Bounds for prediction biasing. Predictions will be biased towards, but not restricted to, the given bounds. Both location and radius will be ignored if bounds is set.",
-                    "!type": "google.maps.LatLngBounds"
+                    "!type": "Object"
                 },
                 "input": {
                     "!doc": "The user entered input string.",
@@ -2826,7 +2864,7 @@
             "prototype": {
                 "bounds": {
                     "!doc": "Bounds used to bias results when searching for Places (optional). Both location and radius will be ignored if bounds is set. Results will not be restricted to those inside these bounds; but, results inside it will rank higher.",
-                    "!type": "google.maps.LatLngBounds"
+                    "!type": "Object"
                 },
                 "keyword": {
                     "!doc": "A term to be matched against all available fields, including but not limited to name, type, and address, as well as customer reviews and other third-party content.",
@@ -2855,7 +2893,7 @@
             "prototype": {
                 "bounds": {
                     "!doc": "The bounds.",
-                    "!type": "google.maps.LatLngBounds"
+                    "!type": "Object"
                 },
                 "clickable": {
                     "!doc": "Indicates whether this Rectangle handles mouse events. Defaults to true.",
@@ -2943,7 +2981,7 @@
             "prototype": {
                 "bounds": {
                     "!doc": "The area towards which to bias query predictions. Predictions are biased towards, but not restricted to, queries targeting these bounds.",
-                    "!type": "google.maps.LatLngBounds"
+                    "!type": "Object"
                 }
             }
         },
@@ -3255,7 +3293,7 @@
             "prototype": {
                 "bounds": {
                     "!doc": "Bounds used to bias results when searching for Places (optional). Both location and radius will be ignored if bounds is set. Results will not be restricted to those inside these bounds; but, results inside it will rank higher.",
-                    "!type": "google.maps.LatLngBounds"
+                    "!type": "Object"
                 },
                 "location": {
                     "!doc": "The center of the area used to bias results when searching for Places.",
@@ -4328,7 +4366,7 @@
             },
             "GroundOverlay": {
                 "!doc": "Creates a ground overlay from the provided image URL and its LatLngBounds. The image is scaled to fit the current bounds, and projected using the current map projection.",
-                "!type": "fn(url: string, bounds: google.maps.LatLngBounds, opts?: GroundOverlayOptions) -> +google.maps.GroundOverlay",
+                "!type": "fn(url: string, bounds: ?, opts?: GroundOverlayOptions) -> +google.maps.GroundOverlay",
                 "!url": "https://developers.google.com/maps/documentation/javascript/reference#GroundOverlay",
                 "prototype": {
                     "getBounds": {
@@ -4563,7 +4601,7 @@
             },
             "LatLngBounds": {
                 "!doc": "Constructs a rectangle from the points at its south-west and north-east corners.",
-                "!type": "fn(sw?: google.maps.LatLng, ne?: google.maps.LatLng) -> +google.maps.LatLngBounds",
+                "!type": "fn(sw?: ?, ne?: ?) -> +google.maps.LatLngBounds",
                 "!url": "https://developers.google.com/maps/documentation/javascript/reference#LatLngBounds",
                 "prototype": {
                     "contains": {
@@ -4572,7 +4610,7 @@
                     },
                     "equals": {
                         "!doc": "Returns true if this bounds approximately equals the given bounds.",
-                        "!type": "fn(other: google.maps.LatLngBounds) -> bool"
+                        "!type": "fn(other: ?) -> bool"
                     },
                     "extend": {
                         "!doc": "Extends this bounds to contain the given point.",
@@ -4591,8 +4629,8 @@
                         "!type": "fn() -> google.maps.LatLng"
                     },
                     "intersects": {
-                        "!doc": "Returns true if this bounds shares any points with this bounds.",
-                        "!type": "fn(other: google.maps.LatLngBounds) -> bool"
+                        "!doc": "Returns true if this bounds shares any points with the other bounds.",
+                        "!type": "fn(other: ?) -> bool"
                     },
                     "isEmpty": {
                         "!doc": "Returns if the bounds are empty.",
@@ -4612,7 +4650,7 @@
                     },
                     "union": {
                         "!doc": "Extends this bounds to contain the union of this and the given bounds.",
-                        "!type": "fn(other: google.maps.LatLngBounds) -> google.maps.LatLngBounds"
+                        "!type": "fn(other: ?) -> google.maps.LatLngBounds"
                     }
                 }
             },
@@ -4721,7 +4759,7 @@
                     },
                     "fitBounds": {
                         "!doc": "Sets the viewport to contain the given bounds.",
-                        "!type": "fn(bounds: google.maps.LatLngBounds)"
+                        "!type": "fn(bounds: ?)"
                     },
                     "getBounds": {
                         "!doc": "Returns the lat/lng bounds of the current viewport. If more than one copy of the world is visible, the bounds range in longitude from -180 to 180 degrees inclusive. If the map is not yet initialized (i.e. the mapType is still null), or center and zoom have not been set then the result is null or undefined.",
@@ -4777,7 +4815,7 @@
                     },
                     "panToBounds": {
                         "!doc": "Pans the map by the minimum amount necessary to contain the given LatLngBounds. It makes no guarantee where on the map the bounds will be, except that as much of the bounds as possible will be visible. The bounds will be positioned inside the area bounded by the map type and navigation (pan, zoom, and Street View) controls, if they are present on the map. If the bounds is larger than the map, the map will be shifted to include the northwest corner of the bounds. If the change in the map's position is less than both the width and height of the map, the transition will be smoothly animated.",
-                        "!type": "fn(latLngBounds: google.maps.LatLngBounds)"
+                        "!type": "fn(latLngBounds: ?)"
                     },
                     "setCenter": {
                         "!doc": "",
@@ -4812,7 +4850,7 @@
             "MapTypeControlStyle": {
                 "!url": "https://developers.google.com/maps/documentation/javascript/reference#MapTypeControlStyle",
                 "DEFAULT": {
-                    "!doc": "Uses the default map type control. The control which DEFAULT maps to will vary according to window size and other factors. It may change in future versions of the API.",
+                    "!doc": "Uses the default map type control. When the DEFAULT control is shown, it will vary according to window size and other factors. The DEFAULT control may change in future versions of the API.",
                     "!type": "string"
                 },
                 "DROPDOWN_MENU": {
@@ -5209,7 +5247,7 @@
                     },
                     "setBounds": {
                         "!doc": "Sets the bounds of this rectangle.",
-                        "!type": "fn(bounds: google.maps.LatLngBounds)"
+                        "!type": "fn(bounds: ?)"
                     },
                     "setDraggable": {
                         "!doc": "If set to true, the user can drag this rectangle over the map.",
@@ -5413,7 +5451,7 @@
                     "!type": "string"
                 },
                 "OUTDOOR": {
-                    "!doc": "Limits Street View searches to outdoor collections only.",
+                    "!doc": "Limits Street View searches to outdoor collections. Indoor collections are not included in search results. Note also that the search only returns panoramas where it's possible to determine whether they're indoors or outdoors. For example, PhotoSpheres are not returned because it's unknown whether they are indoors or outdoors.",
                     "!type": "string"
                 },
                 "prototype": {}
@@ -5516,6 +5554,22 @@
                     }
                 }
             },
+            "TrafficModel": {
+                "!url": "https://developers.google.com/maps/documentation/javascript/reference#TrafficModel",
+                "BEST_GUESS": {
+                    "!doc": "Use historical traffic data to best estimate the time spent in traffic.",
+                    "!type": "string"
+                },
+                "OPTIMISTIC": {
+                    "!doc": "Use historical traffic data to make an optimistic estimate of what the duration in traffic will be.",
+                    "!type": "string"
+                },
+                "PESSIMISTIC": {
+                    "!doc": "Use historical traffic data to make a pessimistic estimate of what the duration in traffic will be.",
+                    "!type": "string"
+                },
+                "prototype": {}
+            },
             "TransitLayer": {
                 "!doc": "A layer that displays transit lines.",
                 "!type": "fn() -> +google.maps.TransitLayer",
@@ -5602,7 +5656,7 @@
             "ZoomControlStyle": {
                 "!url": "https://developers.google.com/maps/documentation/javascript/reference#ZoomControlStyle",
                 "DEFAULT": {
-                    "!doc": "The default zoom control. The control which DEFAULT maps to will vary according to map size and other factors. It may change in future versions of the API.",
+                    "!doc": "The default zoom control. When the DEFAULT control is shown it, will vary according to map size and other factors. The DEFAULT control may change in future versions of the API.",
                     "!type": "string"
                 },
                 "LARGE": {
@@ -5938,12 +5992,12 @@
                             "!type": "fn() -> google.maps.LatLngBounds"
                         },
                         "getPlace": {
-                            "!doc": "Returns the details of the Place selected by user if the details were successfully\u00a0retrieved. Otherwise returns a stub Place object, with the name property set to the current value of the input field.",
+                            "!doc": "Returns the details of the Place selected by user if the details were successfully retrieved. Otherwise returns a stub Place object, with the name property set to the current value of the input field.",
                             "!type": "fn() -> PlaceResult"
                         },
                         "setBounds": {
                             "!doc": "Sets the preferred area within which to return Place results. Results are biased towards, but not restricted to, this area.",
-                            "!type": "fn(bounds: google.maps.LatLngBounds)"
+                            "!type": "fn(bounds: ?)"
                         },
                         "setComponentRestrictions": {
                             "!doc": "Sets the component restrictions. Component restrictions are used to restrict predictions to only those within the parent component. E.g., the country.",
@@ -6048,7 +6102,7 @@
                         },
                         "setBounds": {
                             "!doc": "Sets the region to use for biasing query predictions. Results will only be biased towards this area and not be completely restricted to it.",
-                            "!type": "fn(bounds: google.maps.LatLngBounds)"
+                            "!type": "fn(bounds: ?)"
                         }
                     }
                 }
