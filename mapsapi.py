@@ -450,7 +450,7 @@ for node in content.childNodes:
 		for n1 in node.childNodes:
 			if n1.tagName == 'article':
 				for n2 in n1.childNodes:
-					if n2.tagName == 'div' and n2.hasAttribute('class') and n2.getAttribute('class')=='devsite-article-inner':
+					if (n2.tagName == 'div' or n2.tagName == 'article') and n2.hasAttribute('class') and n2.getAttribute('class')=='devsite-article-inner':
 						for n3 in n2.childNodes:
 							if n3.tagName == 'div' and n3.hasAttribute('itemprop') and n3.getAttribute('itemprop')=='articleBody':
 								wrapper = n3
