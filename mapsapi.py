@@ -197,6 +197,8 @@ def getObject(obj):
 		target = data_struc['!define']
 		objfull = obj
 	for x in objfull.split('.'):
+		if x == 'PolyouseEvent':
+			x = 'PolyMouseEvent'
 		target = target[x]
 	return target			
 
