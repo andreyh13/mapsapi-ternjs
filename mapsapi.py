@@ -422,7 +422,7 @@ def processOneRefObjectTables(node):
 					processStaticMethods(obj, child)		
 
 
-docs_ref = "https://developers.google.com/maps/documentation/javascript/reference"
+docs_ref = "https://developers.google.com/maps/documentation/javascript/reference/3/"
 
 sock = urllib.urlopen(docs_ref)
 htmlSource = sock.read()
