@@ -2128,7 +2128,7 @@
             "!url": "https://developers.google.com/maps/documentation/javascript/reference/places-service#PlaceGeometry",
             "prototype": {
                 "location": {
-                    "!doc": "The Place\u2019s position.",
+                    "!doc": "The Place's position.",
                     "!type": "google.maps.LatLng"
                 },
                 "viewport": {
@@ -2172,18 +2172,6 @@
             "prototype": {
                 "day": {
                     "!doc": "The days of the week, as a number in the range [0, 6], starting on Sunday. For example, 2 means Tuesday.",
-                    "!type": "number"
-                },
-                "hours": {
-                    "!doc": "The hours are extracted from the time property as a number, in the range [00, 23]. This will be reported in the Place\u2019s time zone.",
-                    "!type": "number"
-                },
-                "minutes": {
-                    "!doc": "The minutes are extracted from the time property as a number, in the range [00, 59]. This will be reported in the Place\u2019s time zone.",
-                    "!type": "number"
-                },
-                "nextDate": {
-                    "!doc": "The timestamp (as milliseconds since the epoch, suitable for use with new Date()) representing the next occurrence of this PlaceOpeningHoursTime. It is calculated from the PlaceOpeningHoursTime.day of week, and the PlaceOpeningHoursTime.time, and the PlaceResult.utc_offset. If the PlaceResult.utc_offset is undefined, then this will be undefined.",
                     "!type": "number"
                 },
                 "time": {
@@ -2230,11 +2218,11 @@
             "!url": "https://developers.google.com/maps/documentation/javascript/reference/places-service#PlaceResult",
             "prototype": {
                 "address_components": {
-                    "!doc": "The collection of address components for this Place\u2019s location. Only available with PlacesService.getDetails.",
+                    "!doc": "The collection of address components for this Place's location. Only available with PlacesService.getDetails.",
                     "!type": "[GeocoderAddressComponent]"
                 },
                 "adr_address": {
-                    "!doc": "The representation of the Place\u2019s address in the adr microformat. Only available with PlacesService.getDetails.",
+                    "!doc": "The representation of the Place's address in the adr microformat. Only available with PlacesService.getDetails.",
                     "!type": "string"
                 },
                 "aspects": {
@@ -2242,15 +2230,15 @@
                     "!type": "[PlaceAspectRating]"
                 },
                 "formatted_address": {
-                    "!doc": "The Place\u2019s full address.",
+                    "!doc": "The Place's full address.",
                     "!type": "string"
                 },
                 "formatted_phone_number": {
-                    "!doc": "The Place\u2019s phone number, formatted according to the  number's regional convention. Only available with PlacesService.getDetails.",
+                    "!doc": "The Place's phone number, formatted according to the  number's regional convention. Only available with PlacesService.getDetails.",
                     "!type": "string"
                 },
                 "geometry": {
-                    "!doc": "The Place\u2019s geometry-related information.",
+                    "!doc": "The Place's geometry-related information.",
                     "!type": "PlaceGeometry"
                 },
                 "html_attributions": {
@@ -2258,15 +2246,15 @@
                     "!type": "[string]"
                 },
                 "icon": {
-                    "!doc": "URL to an image resource that can be used to represent this Place\u2019s category.",
+                    "!doc": "URL to an image resource that can be used to represent this Place's category.",
                     "!type": "string"
                 },
                 "international_phone_number": {
-                    "!doc": "The Place\u2019s phone number in international format. International format includes the country code, and is prefixed with the plus (+) sign. Only available with PlacesService.getDetails.",
+                    "!doc": "The Place's phone number in international format. International format includes the country code, and is prefixed with the plus (+) sign. Only available with PlacesService.getDetails.",
                     "!type": "string"
                 },
                 "name": {
-                    "!doc": "The Place\u2019s name. Note: In the case of user entered Places, this is the raw text, as typed by the user. Please exercise caution when using this data, as malicious users may try to use it as a vector for code injection attacks (See  http://en.wikipedia.org/wiki/Code_injection).",
+                    "!doc": "The Place's name. Note: In the case of user entered Places, this is the raw text, as typed by the user. Please exercise caution when using this data, as malicious users may try to use it as a vector for code injection attacks (See  http://en.wikipedia.org/wiki/Code_injection).",
                     "!type": "string"
                 },
                 "opening_hours": {
@@ -2310,11 +2298,11 @@
                     "!type": "string"
                 },
                 "user_ratings_total": {
-                    "!doc": "The number of user ratings which contributed to this Place\u2019s PlaceResult.rating.",
+                    "!doc": "The number of user ratings which contributed to this Place's PlaceResult.rating.",
                     "!type": "number"
                 },
                 "utc_offset": {
-                    "!doc": "The offset from UTC of the Place\u2019s current timezone, in minutes. For example, Sydney, Australia in daylight savings is 11 hours ahead of UTC, so the utc_offset will be 660. For timezones behind UTC, the offset is negative. For example, the  is -60 for Cape Verde. Only available with PlacesService.getDetails.",
+                    "!doc": "The offset from UTC of the Place's current timezone, in minutes. For example, Sydney, Australia in daylight savings is 11 hours ahead of UTC, so the utc_offset will be 660. For timezones behind UTC, the offset is negative. For example, the  is -60 for Cape Verde. Only available with PlacesService.getDetails.",
                     "!type": "number"
                 },
                 "vicinity": {
@@ -2583,12 +2571,12 @@
             "!url": "https://developers.google.com/maps/documentation/javascript/reference/image-overlay#Projection",
             "prototype": {
                 "fromLatLngToPoint": {
-                    "!doc": "Translates from the LatLng cylinder to the Point plane. This interface specifies a function which implements translation from given LatLng values to world coordinates on the map projection. The Maps API calls this method when it needs to plot locations on screen. Projection objects must implement this method, but may return null if the projection cannot calculate the Point.",
+                    "!doc": "Translates from the LatLng cylinder to the Point plane. This interface specifies a function which implements translation from given LatLng values to world coordinates on the map projection. The Maps API calls this method when it needs to plot locations on screen. Projection objects must implement this method.",
                     "!type": "fn(latLng: LatLng, point?: Point) -> google.maps.Point"
                 },
                 "fromPointToLatLng": {
-                    "!doc": "This interface specifies a function which implements translation from world coordinates on a map projection to LatLng values. The Maps API calls this method when it needs to translate actions on screen to positions on the map. Projection objects must implement this method, but may return null if the projection cannot calculate the LatLng.",
-                    "!type": "fn(pixel: Point, noWrap?: bool) -> google.maps.LatLng"
+                    "!doc": "This interface specifies a function which implements translation from world coordinates on a map projection to LatLng values. The Maps API calls this method when it needs to translate actions on screen to positions on the map. Projection objects must implement this method.",
+                    "!type": "fn(pixel: Point, nowrap?: bool) -> google.maps.LatLng"
                 }
             }
         },
