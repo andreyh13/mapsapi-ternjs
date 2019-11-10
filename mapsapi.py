@@ -487,6 +487,7 @@ def processOneRefObjectTables(node):
 
 
 docs_ref = "https://developers.google.com/maps/documentation/javascript/reference/"
+api_version = "3.37"
 docs_ref_paths = ["map", "coordinates", "event", "control", "geometry", "marker", "info-window", "polygon", "data", "overlay-view", "kml", "fusion-tables", "image-overlay", "drawing", "visualization", "max-zoom", "street-view", "street-view-service", "places-widget", "places-service", "places-autocomplete-service", "geocoder", "directions", "distance-matrix", "elevation"]
 
 data_struc = dict()
@@ -501,9 +502,11 @@ l_classes = dict()
 l_namespaces = dict()
 
 for subpath in docs_ref_paths:
-	sock = urllib.urlopen(docs_ref + subpath)
+	sock = urllib.urlopen(docs_ref + api_version + "/" + subpath)
 	htmlSource = sock.read()
 	sock.close()
+
+	print 'Processing: ' + docs_ref + api_version + "/" + subpath
 
 	doc = libxml2dom.parseString(htmlSource, html=1)
 	content = doc.getElementById("gc-wrapper")
@@ -512,15 +515,17 @@ for subpath in docs_ref_paths:
 
 	wrapper = None
 	for node in content.childNodes:
-		if node.tagName == 'div' and node.hasAttribute('class') and node.getAttribute('class')=='devsite-main-content clearfix':
+		if node.tagName == 'div' and node.hasAttribute('class') and node.getAttribute('class')=='devsite-main-content':
 			for n1 in node.childNodes:
-				if n1.tagName == 'article':
+				if n1.tagName == 'devsite-content':
 					for n2 in n1.childNodes:
-						if (n2.tagName == 'div' or n2.tagName == 'article') and n2.hasAttribute('class') and n2.getAttribute('class')=='devsite-article-inner':
+						if n2.tagName == 'article' and n2.getAttribute('class')=='devsite-article':
 							for n3 in n2.childNodes:
-								if n3.tagName == 'div' and n3.hasAttribute('itemprop') and n3.getAttribute('itemprop')=='articleBody':
-									wrapper = n3
-									break
+								if (n3.tagName == 'div' or n3.tagName == 'article') and n3.hasAttribute('class') and n3.getAttribute('class')=='devsite-article-inner':
+									for n4 in n3.childNodes:
+										if n4.tagName == 'div' and n4.hasAttribute('class') and 'devsite-article-body' in n4.getAttribute('class'):
+											wrapper = n4
+											break
 
 	print wrapper
 
