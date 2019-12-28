@@ -487,7 +487,7 @@ def processOneRefObjectTables(node):
 
 
 docs_ref = "https://developers.google.com/maps/documentation/javascript/reference/"
-api_version = "3.37"
+api_version = "3.38"
 docs_ref_paths = ["map", "coordinates", "event", "control", "geometry", "marker", "info-window", "polygon", "data", "overlay-view", "kml", "fusion-tables", "image-overlay", "drawing", "visualization", "max-zoom", "street-view", "street-view-service", "places-widget", "places-service", "places-autocomplete-service", "geocoder", "directions", "distance-matrix", "elevation"]
 
 data_struc = dict()
@@ -515,7 +515,7 @@ for subpath in docs_ref_paths:
 
 	wrapper = None
 	for node in content.childNodes:
-		if node.tagName == 'div' and node.hasAttribute('class') and node.getAttribute('class')=='devsite-main-content':
+		if (node.tagName == 'div' or node.tagName == 'main') and node.hasAttribute('class') and node.getAttribute('class')=='devsite-main-content':
 			for n1 in node.childNodes:
 				if n1.tagName == 'devsite-content':
 					for n2 in n1.childNodes:
