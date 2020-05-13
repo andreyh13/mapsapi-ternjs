@@ -487,7 +487,7 @@ def processOneRefObjectTables(node):
 
 
 docs_ref = "https://developers.google.com/maps/documentation/javascript/reference/"
-api_version = "3.38"
+api_version = "3.39"
 docs_ref_paths = ["map", "coordinates", "event", "control", "geometry", "marker", "info-window", "polygon", "data", "overlay-view", "kml", "fusion-tables", "image-overlay", "drawing", "visualization", "max-zoom", "street-view", "street-view-service", "places-widget", "places-service", "places-autocomplete-service", "geocoder", "directions", "distance-matrix", "elevation"]
 
 data_struc = dict()
