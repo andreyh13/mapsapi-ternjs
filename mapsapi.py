@@ -523,7 +523,7 @@ def processOneRefObjectTables(node):
 
 
 docs_ref = "https://developers.google.com/maps/documentation/javascript/reference/"
-api_version = "3.42"
+api_version = "3.43"
 docs_ref_paths = [
     "map",
     "coordinates",
